@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Final3 Admin</title>
+<link rel="icon" href="/img/logo.png">
+<link rel="stylesheet" href="/assets/final3.css">
+<style>
+body{padding:0 0 88px}
+header{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--black) 0%,var(--navy) 58%,var(--navy2) 100%);color:#fff;padding:18px 18px 19px;box-shadow:0 4px 18px rgba(11,13,18,.18)}
+header::after{content:"";position:absolute;right:-45px;top:-65px;width:190px;height:190px;border-radius:50%;border:34px solid rgba(227,6,19,.16);pointer-events:none}
+header .headIn{position:relative;z-index:1;max-width:1180px;margin:auto;display:flex;align-items:center;gap:14px}
+.adminLogo{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:49px;height:49px;border-radius:12px;background:#fff;color:var(--navy);font-size:24px;box-shadow:0 3px 12px rgba(0,0,0,.18);overflow:hidden}
+.adminLogo img{max-width:42px;max-height:42px}
+.headText{flex:1;min-width:0}
+header h1{margin:0;font-size:21px;line-height:1.2;font-weight:800}
+header .sub{margin-top:4px;font-size:13px;line-height:1.4;opacity:.84}
+.adminBadge{flex:0 0 auto;padding:6px 10px;border:1px solid rgba(255,255,255,.28);border-radius:20px;background:rgba(255,255,255,.1);color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+main{max-width:1180px;margin:auto;padding:17px 15px 110px}
+h2{margin:3px 0 13px;color:var(--navy);font-size:21px;line-height:1.25}
+h3{margin:0 0 10px;color:var(--navy);font-size:16px;line-height:1.3}
+.card{margin-bottom:12px;padding:15px;overflow:hidden;background:#fff;border:1px solid rgba(27,54,93,.06);border-radius:var(--r);box-shadow:0 2px 8px rgba(15,25,45,.07)}
+.card.accent{border-left:5px solid var(--red)}
+.hint{color:var(--mut);font-size:13px;line-height:1.48}
+.price{color:var(--navy);font-weight:800}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d3d9e3;border-radius:10px;background:#fff;color:var(--tx);font-size:16px;outline:none;transition:border-color .18s,box-shadow .18s}
+input:focus,select:focus,textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(27,54,93,.12)}
+input[type="checkbox"]{width:auto;accent-color:var(--navy)}
+label{display:block;margin:11px 0 4px;color:var(--mut);font-size:12px;font-weight:600}
+.btn{border:0;border-radius:10px;padding:12px 16px;background:var(--navy);color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s,opacity .12s;text-decoration:none;display:inline-block;text-align:center}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:default;transform:none}
+.btn.sec{background:#e9edf4;color:var(--navy)}
+.btn.ok{background:var(--ok);color:#fff}
+.btn.bad{background:var(--bad);color:#fff}
+.btn.ac{background:var(--red);color:#fff}
+.btn.full{width:100%}
+.btn.sm{padding:8px 11px;font-size:13px}
+.row{display:flex;gap:9px;align-items:center}
+.row>*{flex:1;min-width:0}
+.line{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid #edf0f4}
+.line:first-child{border-top:0}
+.line .grow{flex:1;min-width:0}
+.badge{display:inline-block;padding:3px 8px;border-radius:20px;background:#e9edf4;color:var(--navy);font-size:11px;font-weight:700;vertical-align:middle}
+.badge.ok{background:#dcf2e4;color:#14723d}
+.badge.warn{background:#fff0d3;color:#9c6200}
+.badge.bad{background:#f8dcda;color:#aa2c22}
+.badge.dark{background:var(--black);color:#fff}
+.chips{display:flex;gap:7px;margin-bottom:12px;padding-bottom:3px;overflow-x:auto;scrollbar-width:thin}
+.chip{flex:0 0 auto;padding:8px 13px;border:1px solid #d5dce7;border-radius:22px;background:#fff;color:var(--navy);font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer}
+.chip.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:13px}
+.kpi{position:relative;overflow:hidden;padding:14px;background:#fff;border:1px solid rgba(27,54,93,.06);border-radius:var(--r);box-shadow:0 2px 8px rgba(15,25,45,.07)}
+.kpi::before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:var(--navy)}
+.kpi.red::before{background:var(--red)}.kpi.green::before{background:var(--ok)}.kpi.orange::before{background:var(--warn)}
+.kpi .v{margin-top:3px;color:var(--navy);font-size:22px;font-weight:800}
+.kpi .l{margin-top:3px;color:var(--mut);font-size:12px;line-height:1.35}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px}
+.tile{position:relative;min-height:128px;padding:14px;border:1px solid rgba(27,54,93,.08);border-radius:var(--r);background:#fff;color:var(--tx);text-align:left;font-size:14px;box-shadow:0 2px 7px rgba(15,25,45,.07);cursor:pointer;transition:transform .12s,border-color .12s,box-shadow .12s}
+.tile::before{content:"";position:absolute;width:5px;left:0;top:13px;bottom:13px;border-radius:0 4px 4px 0;background:var(--red)}
+.tile:active{transform:scale(.98)}
+.tile:hover{border-color:rgba(27,54,93,.25);box-shadow:0 5px 15px rgba(15,25,45,.1)}
+.tile b{display:block;padding-left:2px;color:var(--navy);font-size:15px;line-height:1.3}
+.tile .p{margin:8px 0 6px;color:var(--navy);font-size:19px;font-weight:800}
+.qty{display:flex;align-items:center;gap:7px}
+.qty button{width:36px;height:36px;border:0;border-radius:10px;background:#e9edf4;color:var(--navy);font-size:20px;font-weight:800;cursor:pointer}
+.qty b{min-width:23px;text-align:center}
+.cart{position:fixed;z-index:15;left:0;right:0;bottom:calc(67px + env(safe-area-inset-bottom));max-height:64vh;padding:11px 15px;overflow:auto;border-top:3px solid var(--red);background:#fff;box-shadow:0 -7px 22px rgba(0,0,0,.18)}
+.cart>*{max-width:780px;margin-left:auto;margin-right:auto}
+.seg{display:flex;padding:3px;border-radius:11px;background:#e9edf4}
+.seg button{flex:1;padding:9px;border:0;border-radius:9px;background:transparent;color:var(--navy);font-size:14px;font-weight:700;cursor:pointer}
+.seg button.on{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.tableWrap{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px 5px;border-bottom:1px solid #edf0f4;text-align:right;white-space:nowrap}
+th{color:var(--mut);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.25px}
+th:first-child,td:first-child{text-align:left}
+.modal{position:fixed;z-index:40;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-top:20px;background:rgba(8,12,20,.56);backdrop-filter:blur(2px)}
+.modal .box{width:100%;max-width:590px;max-height:92vh;padding:20px;overflow:auto;border-radius:20px 20px 0 0;background:var(--bg);box-shadow:0 -10px 35px rgba(0,0,0,.23)}
+@media(min-width:700px){.modal{align-items:center}.modal .box{border-radius:20px}}
+.res{margin-bottom:12px;padding:24px 18px;border-radius:var(--r);color:#fff;text-align:center;box-shadow:0 5px 18px rgba(0,0,0,.13)}
+.res .big{font-size:28px;font-weight:900}
+nav{position:fixed;z-index:20;left:0;right:0;bottom:0;display:flex;padding:5px 6px calc(5px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.12);background:var(--black);box-shadow:0 -5px 18px rgba(0,0,0,.22)}
+nav button{position:relative;flex:1;padding:7px 2px 6px;border:0;border-radius:9px;background:transparent;color:rgba(255,255,255,.62);font-size:10px;font-weight:600;cursor:pointer}
+nav button span{display:block;margin-bottom:1px;font-size:20px}
+nav button.on{background:rgba(255,255,255,.1);color:#fff}
+nav button.on::before{content:"";position:absolute;left:20%;right:20%;top:-5px;height:3px;border-radius:0 0 3px 3px;background:var(--red)}
+.qrbox{background:#fff;border-radius:12px;padding:10px;display:inline-block}
+.qrbox svg{display:block;max-width:100%;height:auto}
+.mono{font-family:"Courier New",monospace;letter-spacing:2px;font-weight:700}
+.login{max-width:420px;margin:40px auto}
+@media(max-width:850px){.kpis{grid-template-columns:1fr 1fr}}
+@media(max-width:590px){
+  header{padding:14px 14px 15px}
+  .adminLogo{width:43px;height:43px;font-size:21px}
+  header h1{font-size:17px}
+  header .sub{font-size:11px}
+  main{padding:13px 11px 105px}
+  .card{padding:13px}
+  .grid{grid-template-columns:1fr 1fr;gap:8px}
+  .tile{min-height:120px;padding:12px}
+  .row.mobileWrap{flex-wrap:wrap}
+  .kpi .v{font-size:19px}
+  nav button{font-size:9px}
+  nav button span{font-size:19px}
+}
+@media(max-width:380px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="headIn">
+    <div class="adminLogo" id="hLogo">🎟</div>
+    <div class="headText">
+      <h1 id="ev">Final3 Ticket-Administration</h1>
+      <div class="sub" id="sub">Bitte anmelden</div>
+    </div>
+    <button type="button" class="adminBadge" id="who" onclick="logout()" title="Abmelden">Admin</button>
+  </div>
+</header>
+<main id="view"><div class="load">⏳ Lade …</div></main>
+<div id="cartBox"></div>
+<nav id="nav"></nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="modalRoot"></div>
+
+<script src="/assets/qr.js"></script>
+<script src="/assets/common.js"></script>
+<script>
+const $ = F3.$, esc = F3.esc, eur = F3.eur, toast = F3.toast, formatDate = F3.date;
+
+(function () { const i = new Image(); i.onload = () => { $('#hLogo').innerHTML = ''; $('#hLogo').appendChild(i); }; i.src = '/img/logo.png'; })();
+
+function modal(html) {
+  $('#modalRoot').innerHTML = `<div class="modal" onclick="if(event.target===this)closeModal()"><div class="box" role="dialog" aria-modal="true">${html}</div></div>`;
+}
+function closeModal() { $('#modalRoot').innerHTML = ''; }
+
+let DATA = null, tab = 'orders', filter = 'OFFEN', search = '', cart = {}, paymentType = 'Bar', lastScan = null, busyAction = false;
+
+const ALL_TABS = [
+  ['orders', '📋', 'Bestellungen', ['admin']],
+  ['kasse', '💶', 'Kasse', ['admin', 'kassa']],
+  ['frei', '🎁', 'Freikarten', ['admin']],
+  ['einlass', '✅', 'Einlass', ['admin', 'kassa', 'einlass']],
+  ['report', '📊', 'Report', ['admin']],
+  ['system', '⚙️', 'System', ['admin']]
+];
+const tabs = () => ALL_TABS.filter(t => t[3].includes(DATA.role));
+const KATEGORIEN = ['Ehrengast', 'VIP', 'Mannschaft', 'Sponsor', 'Helfer'];
+
+/* ---------------- Anmeldung ---------------- */
+function showLogin(msg) {
+  DATA = null;
+  $('#nav').innerHTML = ''; $('#cartBox').innerHTML = '';
+  $('#sub').textContent = 'Bitte anmelden'; $('#who').textContent = 'Admin';
+  $('#view').innerHTML = `
+  <form class="card accent login" id="loginForm">
+    <h2>🔐 Anmeldung</h2>
+    <label for="lEmail">E-Mail</label><input id="lEmail" type="email" autocomplete="username" required>
+    <label for="lPw">Passwort</label><input id="lPw" type="password" autocomplete="current-password" required>
+    <div id="lErr">${msg ? `<div class="err">${esc(msg)}</div>` : ''}</div>
+    <button class="btn ac full" style="margin-top:15px" type="submit" id="lBtn">Anmelden</button>
+    <div class="hint" style="margin-top:10px">Zugänge werden in Supabase unter Authentication › Users angelegt und hier unter System › Mitarbeiter freigeschaltet.</div>
+  </form>`;
+  $('#loginForm').addEventListener('submit', async ev => {
+    ev.preventDefault();
+    $('#lBtn').disabled = true;
+    try {
+      await F3.login($('#lEmail').value.trim(), $('#lPw').value);
+      await reload();
+    } catch (e) {
+      $('#lErr').innerHTML = `<div class="err">${esc(e.message)}</div>`;
+      $('#lBtn').disabled = false;
+    }
+  });
+}
+function logout() {
+  if (!DATA) return;
+  if (!confirm('Abmelden?')) return;
+  F3.logout(); showLogin();
+}
+
+async function call(fn, args) {
+  try {
+    return await F3.rpc('f3_admin_' + fn, args || {}, { auth: true });
+  } catch (e) {
+    if (e.auth) { showLogin(e.message); throw e; }
+    alert(e.message || String(e));
+    throw e;
+  }
+}
+function setData(d) {
+  DATA = d;
+  if (!tabs().some(t => t[0] === tab)) tab = tabs()[0][0];
+  render();
+}
+async function reload() { setData(await call('data')); }
+function go(t) { tab = t; window.scrollTo(0, 0); render(); }
+
+function render() {
+  $('#ev').textContent = DATA.event + ' · Administration';
+  $('#who').textContent = DATA.role === 'admin' ? 'Admin' : DATA.role === 'kassa' ? 'Kassa' : 'Einlass';
+  $('#who').title = DATA.me + ' · Abmelden';
+  $('#sub').textContent =
+    (DATA.role === 'admin' ? DATA.orders.filter(o => o.status === 'OFFEN').length + ' offene Bestellungen · ' : '') +
+    DATA.tage.map(d => d.name + ': ' + d.frei_public + ' frei (Verkauf) · ' + d.frei + ' gesamt').join(' · ');
+  $('#nav').innerHTML = tabs().length > 1 ? tabs().map(([k, i, l]) =>
+    `<button type="button" class="${tab === k ? 'on' : ''}" onclick="go('${k}')"><span>${i}</span>${l}</button>`).join('') : '';
+  ({ orders: renderOrders, kasse: renderBoxOffice, frei: renderFreeTickets, einlass: renderCheckin, report: renderReport, system: renderSystem })[tab]();
+  renderCart();
+}
+
+function statusBadge(s) {
+  return `<span class="badge ${s === 'BEZAHLT' ? 'ok' : s === 'OFFEN' ? 'warn' : 'bad'}">${esc(s)}</span>`;
+}
+function mailBadge(m) {
+  if (!m) return '';
+  const t = { ZAHLUNG: 'Zahlungsmail', ERINNERUNG: 'Erinnerung', TICKETS: 'Tickets', FREIKARTEN: 'Tickets', ABGELAUFEN: 'Ablaufmail', STORNO: 'Stornomail' }[m.typ] || m.typ;
+  if (m.status === 'sent') return `<span class="badge ok">✉️ ${t} gesendet</span>`;
+  if (m.status === 'failed') return `<span class="badge bad" title="${esc(m.fehler)}">✉️ ${t} fehlgeschlagen</span>`;
+  if (m.status === 'skipped') return '';
+  return `<span class="badge warn" title="${esc(m.fehler || '')}">✉️ ${t} wird gesendet …</span>`;
+}
+
+/* ---------------- Bestellungen ---------------- */
+function renderOrders() {
+  const statuses = ['OFFEN', 'BEZAHLT', 'ABGELAUFEN', 'STORNIERT', 'ALLE'];
+  const q = search.toLowerCase();
+  const list = DATA.orders.filter(o =>
+    (filter === 'ALLE' || o.status === filter) &&
+    (!q || (o.nr + ' ' + o.name + ' ' + o.email + ' ' + (o.notiz || '') + ' ' + (o.kategorie || '')).toLowerCase().includes(q)));
+  $('#view').innerHTML = `
+  <div class="card accent">
+    <h3>Bestellungen verwalten</h3>
+    <input id="searchInput" placeholder="🔍 Bestellnummer, Name oder E-Mail suchen" value="${esc(search)}" oninput="updateSearch(this)" aria-label="Suche">
+  </div>
+  <div class="chips">${statuses.map(s => `<button type="button" class="chip ${filter === s ? 'on' : ''}" onclick="filter='${s}';renderOrders()">${s} (${s === 'ALLE' ? DATA.orders.length : DATA.orders.filter(o => o.status === s).length})</button>`).join('')}</div>
+  ${list.map(o => {
+    const created = new Date(String(o.erstellt || '').replace(' ', 'T'));
+    const age = isNaN(created.getTime()) ? 0 : Math.max(0, Math.floor((Date.now() - created.getTime()) / 864e5));
+    return `
+  <div class="card">
+    <div class="row mobileWrap" style="align-items:flex-start">
+      <div>
+        <div><b style="color:var(--navy);font-size:16px">${esc(o.nr)}</b> ${statusBadge(o.status)}
+          <span class="badge">${esc(o.quelle)}</span>${o.kategorie ? ` <span class="badge dark">${esc(o.kategorie)}</span>` : ''} ${mailBadge(o.mail)}</div>
+        <div style="margin-top:5px"><b>${esc(o.name)}</b>${o.email ? `<span class="hint"> · ${esc(o.email)}</span>` : ''}</div>
+        ${o.notiz ? `<div class="hint" style="margin-top:3px">📝 ${esc(o.notiz)}</div>` : ''}
+      </div>
+      <div style="flex:0 0 auto;text-align:right">
+        <div class="price" style="font-size:19px">${eur(o.summe)}</div>
+        <div class="hint">${o.anzahl} Ticket(s)</div>
+      </div>
+    </div>
+    <div class="hint" style="margin-top:9px;padding:9px 10px;border-radius:8px;background:#f7f8fb;white-space:pre-line">${esc(o.pos)}${o.rabatt ? '\nRabatt ' + esc(o.rcode) + ': − ' + eur(o.rabatt) : ''}</div>
+    <div class="hint" style="margin-top:8px">Bestellt ${formatDate(o.erstellt)}${o.status === 'OFFEN' ? ' · vor ' + age + ' Tag(en)' : ''}${o.erinnert ? ' · erinnert ' + formatDate(o.erinnert) : ''}${o.bezahlt ? ' · bezahlt ' + formatDate(o.bezahlt) + ' (' + esc(o.zahlart) + ')' : ''}${o.gesendet ? ' · Tickets gesendet ' + formatDate(o.gesendet) : ''}</div>
+    <div class="row mobileWrap" style="margin-top:11px;flex-wrap:wrap">
+      ${['OFFEN', 'ABGELAUFEN'].includes(o.status) ? `<button type="button" class="btn ok sm" onclick="markPaid('${esc(o.nr)}')">💶 Zahlung erhalten</button>` : ''}
+      ${o.status === 'BEZAHLT' && o.email ? `<button type="button" class="btn sec sm" onclick="resend('${esc(o.nr)}')">✉️ Tickets erneut senden</button>` : ''}
+      ${o.status === 'BEZAHLT' && o.token ? `<button type="button" class="btn sec sm" onclick="copyLink('${esc(o.token)}')">🔗 Ticket-Link kopieren</button>` : ''}
+      ${['OFFEN', 'BEZAHLT'].includes(o.status) ? `<button type="button" class="btn sec sm" style="color:var(--bad)" onclick="cancelOrder('${esc(o.nr)}')">✕ Stornieren</button>` : ''}
+    </div>
+  </div>`;
+  }).join('') || '<div class="card hint">Keine passenden Bestellungen gefunden.</div>'}`;
+}
+function updateSearch(input) {
+  search = input.value;
+  const p = input.selectionStart;
+  renderOrders();
+  const n = $('#searchInput');
+  if (n) { n.focus(); n.setSelectionRange(p, p); }
+}
+function copyLink(token) {
+  const url = location.origin + '/ticket#' + token;
+  (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(() => toast('Link kopiert'), () => prompt('Ticket-Link:', url));
+}
+async function markPaid(nr) {
+  if (busyAction) return;
+  const o = DATA.orders.find(x => x.nr === nr);
+  if (!confirm('Zahlungseingang für ' + nr + ' (' + eur(o.summe) + ') bestätigen?\n\nDie Tickets werden in ca. 1 Minute an ' + o.email + ' gesendet.')) return;
+  busyAction = true;
+  try { setData(await call('mark_paid', { p_nr: nr })); toast('✓ Zahlung bestätigt – Tickets werden gesendet'); }
+  finally { busyAction = false; }
+}
+async function resend(nr) {
+  if (busyAction || !confirm('Tickets erneut senden?')) return;
+  busyAction = true;
+  try { setData(await call('resend', { p_nr: nr })); toast('✓ Tickets werden erneut gesendet'); }
+  finally { busyAction = false; }
+}
+async function cancelOrder(nr) {
+  if (busyAction) return;
+  if (!confirm('Bestellung ' + nr + ' stornieren?\n\nDie Tickets werden ungültig und die Plätze wieder freigegeben.')) return;
+  const inform = confirm('Kunden per E-Mail über die Stornierung informieren?');
+  busyAction = true;
+  try { setData(await call('cancel', { p_nr: nr, p_inform: inform })); toast('Bestellung storniert'); }
+  finally { busyAction = false; }
+}
+
+/* ---------------- Abendkasse ---------------- */
+function combinations(fn) {
+  const r = [];
+  DATA.types.filter(fn).forEach(t => (t.alter || []).forEach(a => r.push({ key: t.id + '|' + a.id, ticketType: t, age: a })));
+  return r;
+}
+function renderBoxOffice() {
+  $('#view').innerHTML = `
+  <div class="card accent">
+    <h2>💶 Abendkasse</h2>
+    <div class="hint">Tickets gelten sofort als bezahlt und zählen zum freien Verkauf. Auf Wunsch werden sie direkt als eingelöst markiert.</div>
+    <div style="margin-top:9px">${DATA.tage.map(d => `<span class="badge">${esc(d.name)}: ${d.frei_public} frei</span>`).join(' ')}</div>
+  </div>
+  <div class="grid">
+    ${combinations(t => t.kasse).map(c => `
+    <button type="button" class="tile" onclick="addToCart('${esc(c.key)}')">
+      <b>${esc(c.ticketType.name)}</b><span class="hint">${esc(c.age.name)}</span>
+      <div class="p">${c.age.preis ? eur(c.age.preis) : 'gratis'}</div>
+      ${cart[c.key] ? `<span class="badge ok">${cart[c.key]} im Korb</span>` : ''}
+    </button>`).join('') || '<div class="card hint">Keine Ticketarten mit „An Abendkasse“ vorhanden.</div>'}
+  </div>
+  <div style="height:${Object.keys(cart).length ? 350 : 0}px"></div>`;
+}
+function addToCart(k) { cart[k] = (cart[k] || 0) + 1; if (navigator.vibrate) navigator.vibrate(15); render(); }
+function changeCartQuantity(k, d) { cart[k] += d; if (cart[k] <= 0) delete cart[k]; render(); }
+function renderCart() {
+  const keys = Object.keys(cart);
+  if (tab !== 'kasse' || !keys.length) { $('#cartBox').innerHTML = ''; return; }
+  const all = combinations(() => true);
+  const total = keys.reduce((s, k) => s + all.find(e => e.key === k).age.preis * cart[k], 0);
+  const keepMail = $('#cashEmail') ? $('#cashEmail').value : '';
+  const keepIn = $('#directCheckin') ? $('#directCheckin').checked : true;
+  $('#cartBox').innerHTML = `
+  <div class="cart"><div>
+    ${keys.map(k => { const it = all.find(e => e.key === k); return `
+    <div class="line" style="padding:5px 0">
+      <div class="grow"><b style="color:var(--navy)">${esc(it.ticketType.name)}</b> <span class="hint">${esc(it.age.name)}</span></div>
+      <div class="qty"><button type="button" onclick="changeCartQuantity('${esc(k)}',-1)">−</button><b>${cart[k]}</b><button type="button" onclick="changeCartQuantity('${esc(k)}',1)">+</button></div>
+    </div>`; }).join('')}
+    <input id="cashEmail" type="email" placeholder="E-Mail für Tickets, optional" value="${esc(keepMail)}" style="margin:7px 0;font-size:14px;padding:9px">
+    <label style="display:flex;gap:8px;align-items:center;margin:5px 0 9px;color:var(--tx);font-size:13px"><input type="checkbox" id="directCheckin" ${keepIn ? 'checked' : ''}> Direkt einlassen</label>
+    <div class="seg" style="margin-bottom:9px">${['Bar', 'Karte'].map(t => `<button type="button" class="${paymentType === t ? 'on' : ''}" onclick="paymentType='${t}';renderCart()">${t === 'Bar' ? '💶' : '💳'} ${t}</button>`).join('')}</div>
+    <div class="row">
+      <button type="button" class="btn sec" style="flex:0 0 auto" onclick="cart={};render()">✕</button>
+      <button type="button" class="btn ac" id="sellButton" onclick="sellTickets(${total})">Verkaufen · ${eur(total)}</button>
+    </div>
+  </div></div>`;
+}
+async function sellTickets(total) {
+  if (busyAction) return;
+  let changeText = '';
+  if (paymentType === 'Bar') {
+    const entered = prompt('Summe ' + eur(total) + '\nGegeben, leer bedeutet passend:', '');
+    if (entered === null) return;
+    const amount = parseFloat((entered || '').replace(',', '.'));
+    if (!isNaN(amount) && amount >= total) changeText = 'Rückgeld: ' + eur(amount - total);
+  }
+  const items = Object.entries(cart).map(([k, q]) => { const [ta, al] = k.split('|'); return { ta, al, qty: q }; });
+  const form = { items, zahlart: paymentType, einlass: $('#directCheckin').checked, email: $('#cashEmail').value.trim() };
+  const b = $('#sellButton'); if (b) b.disabled = true;
+  busyAction = true;
+  try {
+    let result;
+    try {
+      result = await F3.rpc('f3_admin_box_office', { p_f: form }, { auth: true });
+    } catch (e) {
+      if (e.auth) return showLogin(e.message);
+      if (/nur noch/.test(e.message) && confirm(e.message + '\n\nTrotzdem verkaufen und Kapazität überschreiten?')) {
+        form.override = true;
+        result = await call('box_office', { p_f: form });
+      } else { alert(e.message); if (b) b.disabled = false; return; }
+    }
+    cart = {};
+    setData(result.data);
+    modal(`
+      <h2>✓ Verkauf abgeschlossen</h2>
+      <div style="color:var(--navy);font-size:26px;font-weight:800;margin-bottom:8px">${eur(result.summe)}</div>
+      ${changeText ? `<div style="padding:10px;border-radius:10px;background:#dcf2e4;color:#14723d;font-size:20px;font-weight:800;margin-bottom:10px">${changeText}</div>` : ''}
+      <div class="hint">Bestellung ${esc(result.nr)}${form.email ? ' · Tickets werden an ' + esc(form.email) + ' gesendet' : ''}</div>
+      <div style="margin-top:12px;padding:10px;border-radius:9px;background:#fff;font-family:monospace;font-size:13px;line-height:1.7">${(result.codes || []).map(esc).join('<br>')}</div>
+      <div class="hint" style="margin-top:8px">Bei Kombitickets ohne E-Mail Ticketcode bitte notieren.</div>
+      <button type="button" class="btn ac full" style="margin-top:15px" onclick="closeModal()">Fertig</button>`);
+  } finally { busyAction = false; }
+}
+
+/* ---------------- Freikarten ---------------- */
+let freeRows = [{ key: '', quantity: 1 }];
+let freeForm = { name: '', email: '', sponsor: '', kategorie: 'Ehrengast' };
+function saveFreeForm() {
+  ['name', 'email', 'sponsor', 'kategorie'].forEach(f => { const e = $('#free_' + f); if (e) freeForm[f] = e.value; });
+}
+function renderFreeTickets() {
+  const all = combinations(() => true);
+  $('#view').innerHTML = `
+  <div class="card accent">
+    <h2>🎁 Ehrengäste, VIP & Mannschaften</h2>
+    <label for="free_kategorie">Kategorie</label>
+    <select id="free_kategorie">${KATEGORIEN.map(k => `<option ${freeForm.kategorie === k ? 'selected' : ''}>${k}</option>`).join('')}</select>
+    <label for="free_name">Empfänger</label><input id="free_name" value="${esc(freeForm.name)}" placeholder="Vor- und Nachname bzw. Mannschaft">
+    <label for="free_email">E-Mail</label><input id="free_email" type="email" value="${esc(freeForm.email)}" placeholder="name@beispiel.at">
+    <label for="free_sponsor">Sponsor oder interne Notiz</label><input id="free_sponsor" value="${esc(freeForm.sponsor)}" placeholder="z. B. Raiffeisenbank oder Gönnerclub">
+    <label>Tickets</label>
+    ${freeRows.map((r, i) => `
+    <div class="row" style="margin-bottom:7px">
+      <select onchange="freeRows[${i}].key=this.value" aria-label="Ticketart">
+        <option value="">Ticket wählen</option>
+        ${all.map(it => `<option value="${esc(it.key)}" ${r.key === it.key ? 'selected' : ''}>${esc(it.ticketType.name)} · ${esc(it.age.name)}${it.ticketType.shop ? '' : ' (nur Admin)'}</option>`).join('')}
+      </select>
+      <input type="number" min="1" max="100" value="${r.quantity}" style="flex:0 0 74px" aria-label="Anzahl" onchange="freeRows[${i}].quantity=Math.max(1,Math.min(100,+this.value||1))">
+      ${freeRows.length > 1 ? `<button type="button" class="btn sec sm" style="flex:0 0 auto" onclick="removeFreeRow(${i})">✕</button>` : ''}
+    </div>`).join('')}
+    <button type="button" class="btn sec sm" onclick="addFreeRow()">＋ weitere Ticketart</button>
+    <label style="display:flex;gap:8px;align-items:center;margin-top:15px;color:var(--tx);font-size:13px"><input type="checkbox" id="freeOverride"> Kapazitätsüberschreitung erlauben</label>
+    <button type="button" class="btn ac full" style="margin-top:15px;padding:15px" id="freeSendButton" onclick="sendFreeTickets()">Tickets erstellen und per Mail senden</button>
+    <div class="hint" style="margin-top:9px">Freikarten werden mit € 0,00 gebucht und belegen Plätze aus dem Admin-Kontingent (Gesamtkapazität minus freier Verkauf).</div>
+  </div>
+  <div class="card">
+    <h3>Bisher versendete Freikarten</h3>
+    ${DATA.orders.filter(o => o.quelle === 'Freikarte').map(o => `
+    <div class="line">
+      <div class="grow"><b style="color:var(--navy)">${esc(o.name)}</b> <span class="badge dark">${esc(o.kategorie || '–')}</span> <span class="hint">${esc(o.notiz || '')}</span>
+        <div class="hint" style="margin-top:3px;white-space:pre-line">${esc(o.pos)}</div></div>
+      <div style="flex:0 0 auto">${statusBadge(o.status)} ${mailBadge(o.mail)}</div>
+    </div>`).join('') || '<div class="hint">Noch keine Freikarten versendet.</div>'}
+  </div>`;
+}
+function addFreeRow() { saveFreeForm(); freeRows.push({ key: '', quantity: 1 }); renderFreeTickets(); }
+function removeFreeRow(i) { saveFreeForm(); freeRows.splice(i, 1); renderFreeTickets(); }
+async function sendFreeTickets() {
+  if (busyAction) return;
+  saveFreeForm();
+  const items = freeRows.filter(r => r.key && r.quantity > 0).map(r => { const [ta, al] = r.key.split('|'); return { ta, al, qty: r.quantity }; });
+  if (!items.length) return alert('Bitte mindestens eine Ticketart wählen.');
+  const n = items.reduce((s, i) => s + i.qty, 0);
+  if (!confirm(n + ' Ticket(s) (' + freeForm.kategorie + ') an ' + freeForm.email + ' senden?')) return;
+  const b = $('#freeSendButton'); if (b) b.disabled = true;
+  busyAction = true;
+  try {
+    setData(await call('free', { p_f: { name: freeForm.name, email: freeForm.email, notiz: freeForm.sponsor, kategorie: freeForm.kategorie, items, override: $('#freeOverride').checked } }));
+    freeForm = { name: '', email: '', sponsor: freeForm.sponsor, kategorie: freeForm.kategorie };
+    freeRows = [{ key: '', quantity: 1 }];
+    render();
+    toast('✓ Freikarten erstellt – Mail wird gesendet');
+  } finally { busyAction = false; const bb = $('#freeSendButton'); if (bb) bb.disabled = false; }
+}
+
+/* ---------------- Einlass ---------------- */
+function renderCheckin() {
+  const st = DATA.stats || {};
+  $('#view').innerHTML = `
+  <div class="kpis">
+    <div class="kpi green"><div class="v">${st.heute || 0}</div><div class="l">Einlässe heute</div></div>
+    <div class="kpi orange"><div class="v">${st.erwartet || 0}</div><div class="l">Noch erwartet (gültig für heute)</div></div>
+  </div>
+  <div class="card accent">
+    <h2>📱 Scanner</h2>
+    <div class="hint">Der Scanner läuft auf jedem Handy im Browser unter <b>${esc(location.origin)}/scan</b>. Ein Gerät wird einmalig über einen Kopplungs-QR freigeschaltet – ohne PIN.</div>
+    ${DATA.role === 'admin' ? `
+    <div class="row" style="margin-top:12px">
+      <input id="devName" placeholder="Gerätename, z. B. Eingang 1" maxlength="40">
+      <button type="button" class="btn ac" style="flex:0 0 auto" onclick="newDevice()">＋ Gerät koppeln</button>
+    </div>
+    ${(DATA.devices || []).map(d => `
+    <div class="line">
+      <div class="grow"><b style="color:var(--navy)">${esc(d.name)}</b>
+        ${!d.aktiv ? '<span class="badge bad">gesperrt</span>' : d.gekoppelt ? '<span class="badge ok">gekoppelt</span>' : '<span class="badge warn">wartet auf Kopplung</span>'}
+        <div class="hint">${d.scans} Scans${d.zuletzt ? ' · zuletzt ' + formatDate(d.zuletzt) : ''} · gültig bis ${formatDate(d.bis)}</div></div>
+      <button type="button" class="btn sec sm" style="flex:0 0 auto;${d.aktiv ? 'color:var(--bad)' : ''}" onclick="blockDevice('${esc(d.id)}', ${!d.aktiv})">${d.aktiv ? 'Sperren' : 'Freigeben'}</button>
+    </div>`).join('')}` : `<div class="hint" style="margin-top:9px">Geräte koppelt ein Admin unter Einlass › Gerät koppeln.</div>`}
+  </div>
+  <div class="card">
+    <h3>⌨️ Ticketcode manuell prüfen</h3>
+    <div class="row">
+      <input id="manualCode" placeholder="Ticketcode eingeben" style="text-transform:uppercase;font-family:monospace" onkeydown="if(event.key==='Enter')manualCheckin()" aria-label="Ticketcode">
+      <button type="button" class="btn ac" style="flex:0 0 auto" onclick="manualCheckin()">Prüfen</button>
+    </div>
+  </div>
+  <div id="scanResult" aria-live="polite">${lastScan || ''}</div>`;
+}
+async function newDevice() {
+  const name = ($('#devName').value || '').trim() || 'Eingang';
+  const r = await call('device_create', { p_name: name });
+  DATA = r.data;
+  const url = location.origin + '/scan#pair=' + r.pair;
+  renderCheckin();
+  modal(`
+    <h2>📱 ${esc(name)} koppeln</h2>
+    <div class="hint">Mit der <b>normalen Handykamera</b> des Einlass-Handys scannen und den Link öffnen. Gültig 30 Minuten.</div>
+    <div style="text-align:center;margin:14px 0"><div class="qrbox">${F3.qrSvg(url, 220)}</div></div>
+    <div class="hint">Alternativ ${esc(location.origin)}/scan öffnen und diesen Code eingeben:</div>
+    <div class="mono" style="font-size:22px;text-align:center;margin:8px 0">${esc(r.pair.replace(/(.{4})/g, '$1 ').trim())}</div>
+    <button type="button" class="btn ac full" style="margin-top:12px" onclick="closeModal();reload()">Fertig</button>`);
+}
+async function blockDevice(id, aktiv) {
+  if (!aktiv && !confirm('Gerät sperren? Es kann danach nicht mehr scannen.')) return;
+  setData(await call('device_block', { p_id: id, p_aktiv: aktiv }));
+}
+async function manualCheckin(forceCode) {
+  const input = $('#manualCode');
+  const code = String(forceCode || (input ? input.value : '')).trim().toUpperCase();
+  if (!code) return;
+  const r = await call('checkin', { p_code: code, p_force: Boolean(forceCode) });
+  const color = r.result === 'OK' ? 'var(--ok)' : r.result === 'TAG' ? 'var(--warn)' : 'var(--bad)';
+  const icon = r.result === 'OK' ? '✅' : r.result === 'TAG' ? '⚠️' : '❌';
+  lastScan = `
+  <div class="res" style="background:${color}">
+    <div class="big">${icon} ${esc(r.text)}</div>
+    <div>${esc(r.sub || '')}</div>
+    ${r.taname ? `
+    <div style="margin-top:11px;font-size:18px"><b>${esc(r.taname)}</b> · ${esc(r.alname)}${r.aufdruck && r.aufdruck !== 'Eintrittskarte' ? ' · ' + esc(r.aufdruck) : ''}</div>
+    <div>${esc(r.name)} · ${esc(r.nr)}${r.kategorie ? ' · ' + esc(r.kategorie) : ''}${r.notiz ? ' · ' + esc(r.notiz) : ''}</div>
+    ${r.extras ? `<div style="margin-top:6px">✨ ${esc(r.extras)}</div>` : ''}` : ''}
+    ${r.result === 'TAG' ? `<button type="button" class="btn" style="margin-top:13px;background:#fff;color:#222" onclick="manualCheckin('${esc(r.code || code)}')">Trotzdem einlassen</button>` : ''}
+  </div>`;
+  if (r.stats) DATA.stats = r.stats;
+  if (tab === 'einlass') {
+    renderCheckin();
+    const n = $('#manualCode'); if (n) { n.value = ''; n.focus(); }
+  }
+}
+
+/* ---------------- Report ---------------- */
+function makeTable(h, rows) {
+  return `<div class="tableWrap"><table><tr>${h.map(x => `<th>${x}</th>`).join('')}</tr>${rows.join('') || `<tr><td colspan="${h.length}">Keine Daten</td></tr>`}</table></div>`;
+}
+function renderReport() {
+  const R = DATA.report;
+  const visitDays = Object.keys(R.visits).sort();
+  const lastDay = visitDays[visitDays.length - 1];
+  const hours = Object.keys(R.hours).filter(k => k.startsWith(lastDay || 'x')).sort();
+  const maxHour = Math.max(1, ...hours.map(k => R.hours[k]));
+  const perType = Object.entries(R.perType).sort();
+  $('#view').innerHTML = `
+  <div class="row mobileWrap" style="margin-bottom:11px">
+    <button type="button" class="btn sec sm" onclick="reload().then(()=>toast('Daten aktualisiert'))">🔄 Aktualisieren</button>
+    <button type="button" class="btn sec sm" onclick="exportCsv()">📄 Export (Excel/CSV)</button>
+  </div>
+  <div class="kpis">
+    <div class="kpi green"><div class="v" style="color:var(--ok)">${eur(R.bezahlt)}</div><div class="l">Zahlungseingänge brutto</div></div>
+    <div class="kpi orange"><div class="v" style="color:var(--warn)">${eur(R.offen.sum)}</div><div class="l">${R.offen.n} offene Bestellungen</div></div>
+    <div class="kpi"><div class="v">${perType.reduce((s, [, v]) => s + v.bezahlt, 0)}</div><div class="l">Verkaufte Tickets</div></div>
+    <div class="kpi red"><div class="v">${Object.values(R.visits).reduce((s, v) => s + v, 0)}</div><div class="l">Einlässe gesamt</div></div>
+  </div>
+  <div class="card">
+    <h3>Auslastung je Veranstaltungstag</h3>
+    ${makeTable(['Tag', 'Kap. gesamt', 'Freier Verkauf', 'Bezahlt', 'Reserv.', 'Admin', 'Frei Verkauf', 'Frei gesamt', 'Einlass'],
+      R.tage.map(d => `<tr><td><b>${esc(d.name)}</b><div class="hint">${formatDate(d.datum)}</div></td><td>${d.kap}</td><td>${d.kap_public}</td><td>${d.gueltig}</td><td>${d.reserviert}</td><td>${d.admin}</td><td><b>${d.frei_public}</b></td><td>${d.frei}</td><td>${d.einlass}</td></tr>`))}
+    <div class="hint" style="margin-top:7px">Shop und Abendkasse nutzen das Kontingent „freier Verkauf“, Freikarten nur die Gesamtkapazität. Kombitickets zählen an jedem gültigen Tag.</div>
+  </div>
+  <div class="card">
+    <h3>Verkäufe je Ticketart</h3>
+    ${makeTable(['Ticket', 'Bezahlt', 'Frei', 'Reserv.', 'Umsatz'], perType.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.bezahlt}</td><td>${v.frei}</td><td>${v.reserviert}</td><td>${eur(v.umsatz)}</td></tr>`))}
+    <div class="hint" style="margin-top:7px">Umsatz zu Listenpreisen vor Rabatt.</div>
+  </div>
+  <div class="card">
+    <h3>Freikarten nach Kategorie</h3>
+    ${makeTable(['Kategorie', 'Ausgegeben', 'Genutzt'], Object.entries(R.kategorien || {}).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.ausgegeben}</td><td>${v.genutzt}</td></tr>`))}
+  </div>
+  <div class="card">
+    <h3>Zahlungen nach Zahlungsart</h3>
+    ${makeTable(['Zahlart', 'Betrag'], Object.entries(R.byZahl).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${eur(v)}</td></tr>`))}
+    <div class="hint" style="margin-top:7px">Bestellungen: ${Object.entries(R.byStatus).map(([k, v]) => esc(k) + ' ' + v).join(' · ')}</div>
+  </div>
+  <div class="card">
+    <h3>Einlässe</h3>
+    ${makeTable(['Datum', 'Einlässe'], visitDays.map(d => `<tr><td>${formatDate(d)}</td><td>${R.visits[d]}</td></tr>`))}
+    ${hours.length ? `<div class="hint" style="margin:13px 0 7px">Einlässe nach Uhrzeit (${formatDate(lastDay)})</div>
+    ${hours.map(k => `<div class="row" style="margin-bottom:5px;font-size:13px"><div style="flex:0 0 55px">${k.slice(11)}:00</div><div><div style="width:${R.hours[k] / maxHour * 100}%;min-width:3px;height:13px;border-radius:4px;background:linear-gradient(90deg,var(--navy),var(--red))"></div></div><div style="flex:0 0 40px;text-align:right;font-weight:700">${R.hours[k]}</div></div>`).join('')}` : ''}
+  </div>
+  <div class="card">
+    <h3>Rabattcodes</h3>
+    ${makeTable(['Code', 'Einlösungen', 'Rabatt'], Object.entries(R.rabatte).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.n}</td><td>${eur(v.sum)}</td></tr>`))}
+  </div>
+  <div class="card">
+    <h3>Sponsoren und Freikarten</h3>
+    ${makeTable(['Kategorie · Sponsor', 'Ausgegeben', 'Genutzt'], Object.entries(R.sponsoren).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.ausgegeben}</td><td>${v.genutzt}</td></tr>`))}
+  </div>`;
+}
+function csv(rows) {
+  if (!rows.length) return '';
+  const h = Object.keys(rows[0]);
+  const c = v => { const s = String(v == null ? '' : v); return /[;"\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  const num = v => typeof v === 'number' ? String(v).replace('.', ',') : v;
+  return [h.map(c).join(';')].concat(rows.map(r => h.map(k => c(num(r[k]))).join(';'))).join('\r\n');
+}
+async function exportCsv() {
+  const d = await call('export');
+  const stamp = new Date().toISOString().slice(0, 10);
+  [['Bestellungen', d.bestellungen], ['Tickets', d.tickets], ['Einlass', d.einlass], ['Protokoll', d.audit]].forEach(([n, rows], i) => {
+    setTimeout(() => {
+      const blob = new Blob(['\ufeff' + csv(rows || [])], { type: 'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = 'Final3_' + n + '_' + stamp + '.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    }, i * 400);
+  });
+  toast('4 Dateien werden heruntergeladen');
+}
+
+/* ---------------- System ---------------- */
+function renderSystem() {
+  const M = DATA.mail || {};
+  $('#view').innerHTML = `
+  <div class="card accent">
+    <h2>✉️ Mailversand</h2>
+    <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi orange"><div class="v">${M.pending || 0}</div><div class="l">in Warteschlange</div></div>
+      <div class="kpi green"><div class="v">${M.sentToday || 0}</div><div class="l">gesendet (24 h)</div></div>
+      <div class="kpi red"><div class="v">${(M.failed || []).length}</div><div class="l">fehlgeschlagen</div></div>
+    </div>
+    <div class="hint">Mails werden jede Minute von faustball@union-nussbach.at gesendet. Restkontingent heute: <b>${esc(M.quota || '–')}</b></div>
+    ${(M.failed || []).map(f => `
+    <div class="line"><div class="grow"><b>${esc(f.nr)}</b> · ${esc(f.typ)} · ${esc(f.an)}<div class="hint" style="color:var(--bad)">${esc(f.fehler)}</div></div>
+      <button type="button" class="btn sec sm" style="flex:0 0 auto" onclick="retryMail(${+f.id})">↻ Erneut senden</button></div>`).join('')}
+  </div>
+  <div class="card">
+    <h3>👥 Mitarbeiter</h3>
+    <div class="hint">Zuerst in Supabase unter Authentication › Users anlegen, dann hier die Rolle vergeben. <b>Admin</b> = alles · <b>Kassa</b> = Abendkasse + Einlass · <b>Einlass</b> = nur Einlass.</div>
+    ${(DATA.staff || []).map(s => `<div class="line"><div class="grow">${esc(s.email)}</div><span class="badge">${esc(s.role)}</span>
+      ${s.email !== DATA.me ? `<button type="button" class="btn sec sm" style="flex:0 0 auto;color:var(--bad)" onclick="setRole('${esc(s.email)}','')">Entfernen</button>` : ''}</div>`).join('')}
+    <div class="row mobileWrap" style="margin-top:10px">
+      <input id="stMail" type="email" placeholder="E-Mail des Benutzers">
+      <select id="stRole" style="flex:0 0 130px"><option value="kassa">Kassa</option><option value="einlass">Einlass</option><option value="admin">Admin</option></select>
+      <button type="button" class="btn ac" style="flex:0 0 auto" onclick="setRole($('#stMail').value,$('#stRole').value)">Speichern</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🧪 Testmodus</h3>
+    <div class="hint">Erzeugt bezahlte Test-Tickets (ohne Mail) für einen Lasttest von Scanner und Kapazität. Danach unbedingt wieder löschen. Aktuell: <b>${DATA.test || 0}</b> Testbestellungen.</div>
+    <div class="row mobileWrap" style="margin-top:10px">
+      <input id="testN" type="number" min="1" max="600" value="50" style="flex:0 0 100px" aria-label="Anzahl Test-Tickets">
+      <button type="button" class="btn sec" onclick="testCreate()">Test-Tickets erzeugen</button>
+      <button type="button" class="btn sec" onclick="testCodes()" ${DATA.test ? '' : 'disabled'}>Test-QR anzeigen</button>
+      <button type="button" class="btn sec" style="color:var(--bad)" onclick="testCleanup()">Testdaten löschen</button>
+    </div>
+  </div>`;
+}
+async function retryMail(id) { setData(await call('mail_retry', { p_id: id })); toast('Mail wird erneut gesendet'); }
+async function setRole(email, role) {
+  if (!email) return alert('Bitte E-Mail angeben.');
+  if (role === '' && !confirm('Zugriff für ' + email + ' entfernen?')) return;
+  setData(await call('staff_set', { p_email: email, p_role: role }));
+  toast('Gespeichert');
+}
+async function testCreate() {
+  const n = Math.max(1, Math.min(600, +$('#testN').value || 50));
+  if (!confirm(n + ' Test-Tickets erzeugen? Sie belegen bis zum Löschen echte Plätze.')) return;
+  setData(await call('test', { p_action: 'create', p_n: n })); toast('Test-Tickets erzeugt');
+}
+async function testCleanup() {
+  if (!confirm('Alle Testbestellungen und Test-Einlässe (an Nicht-Eventtagen) löschen?')) return;
+  setData(await call('test', { p_action: 'cleanup', p_n: 0 })); toast('Testdaten gelöscht');
+}
+async function testCodes() {
+  const codes = (await call('test_codes')).slice(0, 12);
+  modal(`<h2>🧪 Test-QR-Codes</h2><div class="hint">Mit einem gekoppelten Scanner scannen. Ein zweiter Scan desselben Codes muss „bereits eingelöst“ zeigen.</div>
+    <div class="grid" style="margin-top:12px">${codes.map(c => `<div style="text-align:center"><div class="qrbox">${F3.qrSvg('F3:' + c, 150)}</div><div class="mono" style="font-size:11px">${esc(c)}</div></div>`).join('')}</div>
+    <button type="button" class="btn ac full" style="margin-top:15px" onclick="closeModal()">Schließen</button>`);
+}
+
+/* ---------------- Start ---------------- */
+if (F3.session()) reload().catch(e => { if (!e.auth) $('#view').innerHTML = `<div class="err">${esc(e.message)}</div>`; });
+else showLogin();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+/* Final3 – gemeinsames CI (Shop, Admin, Scanner, Ticket) */
+:root{
+  --navy:#1b365d;--navy2:#294f82;--red:#e30613;--black:#0b0d12;--bg:#f2f4f8;
+  --tx:#1b2330;--mut:#6b7686;--ok:#1e9e55;--warn:#d98a00;--bad:#c0392b;--line:#e4e8ef;--r:14px
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif;background:var(--bg);color:var(--tx)}
+button,input,select,textarea{font-family:inherit}
+a{color:var(--navy)}
+:focus-visible{outline:3px solid rgba(227,6,19,.55);outline-offset:2px}
+.err{background:#fde7e9;color:#a3000c;padding:10px 12px;border-radius:10px;font-size:14px;margin-top:10px}
+.load{padding:80px 20px;text-align:center;color:var(--mut)}
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--black);color:#fff;padding:10px 18px;border-radius:20px;font-size:14px;z-index:60;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%}
+.toast.show{opacity:1}

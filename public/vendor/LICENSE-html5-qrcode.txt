@@ -1,0 +1,4 @@
+html5-qrcode – https://github.com/mebjas/html5-qrcode
+Copyright (c) Minhaz (mebjas)
+Licensed under the Apache License, Version 2.0 – https://www.apache.org/licenses/LICENSE-2.0
+Enthält ZXing (Apache License 2.0).

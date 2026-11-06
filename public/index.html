@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Final3 Tickets</title>
+<link rel="icon" href="/img/logo.png">
+<link rel="stylesheet" href="/assets/final3.css">
+<style>
+.top{background:var(--black);height:64px;display:flex;align-items:center;padding:0 20px}
+.top .in{max-width:1080px;width:100%;margin:auto;display:flex;align-items:center;gap:16px}
+.logo{background:#fff;border-radius:10px;padding:5px 12px;display:inline-flex;align-items:center;height:46px}
+.logo img{height:36px;width:auto;display:block}
+.logo b{color:var(--navy);font-size:18px;letter-spacing:.5px}
+.top .sp{flex:1}
+.top .lnk{color:#fff;font-size:14px;font-weight:600;text-decoration:none;opacity:.9}
+.hero{position:relative;min-height:380px;background:var(--black) center/cover no-repeat;color:#fff;display:flex;align-items:center}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,16,.92) 0%,rgba(8,10,16,.72) 45%,rgba(8,10,16,.15) 100%)}
+.hero .in{position:relative;max-width:1080px;width:100%;margin:auto;padding:44px 20px}
+.kicker{display:inline-block;background:var(--red);color:#fff;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;border-radius:4px}
+.hero h1{font-size:40px;line-height:1.1;margin:14px 0 10px;font-weight:800;max-width:640px}
+.hero .sub{font-size:17px;max-width:560px;opacity:.95;line-height:1.45}
+.facts{margin:18px 0 22px;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:16px;font-weight:600}
+.facts span{display:inline-flex;align-items:center;gap:8px}
+.facts svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:1.8}
+.btn{border:0;border-radius:10px;padding:14px 26px;font-size:16px;font-weight:700;background:var(--red);color:#fff;cursor:pointer;font-family:inherit}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.sec{background:#e9edf4;color:var(--navy)}
+.btn.full{width:100%}
+.hl{background:var(--navy);color:#fff}
+.hl .in{max-width:1080px;margin:auto;padding:22px 20px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.hl .it{display:flex;gap:12px;align-items:flex-start}
+.hl svg{flex:0 0 34px;width:34px;height:34px;stroke:#fff;fill:none;stroke-width:1.5}
+.hl b{display:block;font-size:15px;margin-bottom:2px}
+.hl small{font-size:13px;opacity:.85;line-height:1.4;display:block}
+main{max-width:1080px;margin:auto;padding:24px 20px 120px}
+.head{display:flex;align-items:baseline;justify-content:space-between;margin:6px 0 14px}
+.head h2{margin:0;font-size:24px}
+.head span{color:var(--mut);font-size:14px}
+.info{background:#fff;border-left:5px solid var(--red);border-radius:8px;padding:12px 16px;font-size:14px;color:#333;margin-bottom:18px;line-height:1.5}
+.card{background:#fff;border-radius:var(--r);box-shadow:0 1px 4px rgba(15,25,45,.08);margin-bottom:12px;overflow:hidden}
+.row{display:flex;align-items:stretch}
+.date{flex:0 0 150px;border-right:1px solid #e6e9ef;text-align:center;padding:18px 8px;display:flex;flex-direction:column;justify-content:center}
+.date .d{font-size:34px;font-weight:800;color:var(--red);line-height:1}
+.date .m{font-size:17px;font-weight:600;margin-top:4px}
+.date .w{font-size:13px;color:var(--mut);margin-top:2px}
+.mid{flex:1;padding:18px 20px;min-width:0}
+.mid h3{margin:0 0 4px;font-size:21px;text-transform:uppercase;color:var(--navy);letter-spacing:.3px}
+.mid .l{color:var(--mut);font-size:15px}
+.mid .ex{display:inline-block;margin-top:8px;font-size:13px;background:#fff3f3;color:#a3000c;border-radius:6px;padding:4px 9px}
+.side{flex:0 0 230px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center;align-items:stretch;text-align:center;gap:6px}
+.side .p{font-size:20px;font-weight:700;color:var(--navy)}
+.side .n{font-size:12.5px;color:#d06a00}
+.side .so{font-size:13px;color:var(--red);font-weight:700}
+.opts{border-top:1px solid #e6e9ef;background:#fafbfd;padding:6px 20px 12px 170px}
+.opt{display:flex;align-items:center;gap:14px;padding:10px 0;border-bottom:1px solid #eef0f4}
+.opt:last-child{border-bottom:0}
+.opt .g{flex:1}
+.opt .g b{font-size:15px}
+.opt .g div{font-size:13px;color:var(--mut)}
+.opt .pr{font-weight:700;color:var(--navy);min-width:80px;text-align:right}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:38px;height:38px;border-radius:10px;border:0;background:#e9edf4;color:var(--navy);font-size:21px;font-weight:700;cursor:pointer}
+.qty button.pl{background:var(--navy);color:#fff}
+.qty button:disabled{opacity:.3;cursor:default}
+.qty b{min-width:22px;text-align:center;font-size:16px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--black);color:#fff;z-index:9;padding:12px 20px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -6px 18px rgba(0,0,0,.25)}
+.bar .in{max-width:1080px;margin:auto;display:flex;align-items:center;gap:16px}
+.bar .s{flex:1}
+.bar .s b{font-size:18px}
+.bar .s div{font-size:13px;opacity:.75}
+.bar .warn{color:#ffb4b8;opacity:1;font-weight:600}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;align-items:start}
+.box{background:#fff;border-radius:var(--r);box-shadow:0 1px 4px rgba(15,25,45,.08);padding:18px 20px;margin-bottom:14px}
+.box h3{margin:0 0 12px;font-size:18px;color:var(--navy)}
+.ln{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #eef0f4;font-size:15px}
+.ln .h{color:var(--mut);font-size:13px}
+.tot{display:flex;justify-content:space-between;font-size:21px;font-weight:800;padding-top:12px;color:var(--navy)}
+label{font-size:13px;color:var(--mut);display:block;margin:12px 0 4px}
+input{width:100%;padding:12px;font-size:16px;border:1px solid #d3d9e3;border-radius:10px;font-family:inherit}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--tx);margin-top:16px;line-height:1.45}
+.chk input{width:auto;margin-top:3px}
+.okmsg{color:var(--ok);font-size:14px;margin-top:6px}
+.hint{font-size:13px;color:var(--mut);line-height:1.5}
+table.pay{width:100%;border-collapse:collapse;font-size:15px}
+table.pay td{padding:8px 0;border-bottom:1px solid #eef0f4}
+table.pay td:last-child{text-align:right;font-weight:600}
+.giro{display:inline-block;width:200px;height:200px}
+.giro svg{width:100%;height:100%}
+#ts{margin-top:14px;min-height:0}
+footer{text-align:center;font-size:13px;color:var(--mut);padding:10px 20px 30px}
+@media(max-width:760px){
+  .hero{min-height:0}
+  .hero .in{padding:30px 18px}
+  .hero h1{font-size:28px}
+  .hero .sub{font-size:15px}
+  .hl .in{grid-template-columns:1fr 1fr;gap:14px}
+  .row{flex-wrap:wrap}
+  .date{flex:0 0 96px;padding:14px 6px}
+  .date .d{font-size:26px}
+  .date .m{font-size:14px}
+  .mid{padding:14px 14px;flex:1 1 0}
+  .mid h3{font-size:17px}
+  .side{flex:1 0 100%;flex-direction:row;align-items:center;justify-content:space-between;border-top:1px solid #eef0f4;padding:12px 14px;text-align:left}
+  .opts{padding:4px 14px 10px}
+  .grid2{grid-template-columns:1fr}
+  .top .lnk{display:none}
+}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="in">
+    <span class="logo" id="logo"><b>FINAL3</b></span>
+    <span class="sp"></span>
+    <a class="lnk" href="#tickets" onclick="toList(true);return false">Tickets</a>
+  </div>
+</div>
+<div id="app"><div class="load">⏳ Lade Tickets …</div></div>
+<div id="barBox"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/assets/qr.js"></script>
+<script src="/assets/common.js"></script>
+<script>
+const $ = F3.$, esc = F3.esc, eur = F3.eur, toast = F3.toast;
+
+/* Checkout-ID bleibt während eines Bestellversuchs gleich → keine Doppelbestellung */
+function newCheckoutId() {
+  if (self.crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID().replace(/-/g, '');
+  return String(Date.now()) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+}
+let checkoutId = newCheckoutId();
+
+const MON = ['Jän.','Feb.','März','Apr.','Mai','Juni','Juli','Aug.','Sep.','Okt.','Nov.','Dez.'];
+const WD = ['So.','Mo.','Di.','Mi.','Do.','Fr.','Sa.'];
+const ICON = {
+  cal: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M7 14h2M11 14h2M15 14h2M7 17h2M11 17h2"/></svg>',
+  arena: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="9" rx="9" ry="3.5"/><path d="M3 9v6c0 2 4 3.5 9 3.5s9-1.5 9-3.5V9M7 18v-3a1.5 1.5 0 0 1 3 0v3.4M14 18.4V15a1.5 1.5 0 0 1 3 0v3M8 5V2l3 1-3 1M16 5V2l3 1-3 1"/></svg>',
+  cam: '<svg viewBox="0 0 24 24"><rect x="2" y="9" width="14" height="10" rx="2"/><path d="M16 12l5-3v10l-5-3"/><circle cx="6" cy="5.5" r="2.5"/><circle cx="12" cy="5.5" r="2.5"/></svg>',
+  leaf: '<svg viewBox="0 0 24 24"><path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19l8-8"/></svg>',
+  pin: '<svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  tag: '<svg viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>'
+};
+const HL_ICONS = ['cal','arena','cam','leaf'];
+
+let D = null, X = {}, cart = {}, open = {}, step = 'list', disc = null, busy = false;
+let tsSiteKey = '', tsToken = '', tsWidget = null;
+
+/* ---------------- Datum ---------------- */
+const dayById = id => D.tage.find(d => d.id === id);
+function dt(s) {
+  if (!s) return null;
+  const m = String(s).match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (!m) return null;
+  const d = new Date(+m[1], +m[2] - 1, +m[3], 12);
+  return isNaN(d.getTime()) ? null : d;
+}
+function dateBox(ids) {
+  const ds = ids.map(dayById).filter(d => d && d.datum).map(d => dt(d.datum)).filter(Boolean).sort((a, b) => a - b);
+  if (!ds.length) return { d: '–', m: '', w: '' };
+  const a = ds[0], b = ds[ds.length - 1];
+  return {
+    d: a.getDate() + (ds.length > 1 ? '–' + b.getDate() : ''),
+    m: MON[a.getMonth()] + ' ' + a.getFullYear(),
+    w: WD[a.getDay()] + (ds.length > 1 ? ' – ' + WD[b.getDay()] : '')
+  };
+}
+function eventDates() {
+  const ds = D.tage.map(d => dt(d.datum)).filter(Boolean).sort((a, b) => a - b);
+  if (!ds.length) return '';
+  const f = d => String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + d.getFullYear();
+  if (ds.length === 1) return f(ds[0]);
+  const a = ds[0], b = ds[ds.length - 1];
+  return a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear()
+    ? String(a.getDate()).padStart(2, '0') + '. & ' + f(b) : f(a) + ' – ' + f(b);
+}
+
+/* ---------------- Warenkorb ---------------- */
+const minPrice = t => { const p = t.alter.map(a => a.preis).filter(x => x > 0); return p.length ? Math.min(...p) : 0; };
+function minAll() { const p = D.types.flatMap(t => t.alter.map(a => a.preis)).filter(x => x > 0); return p.length ? Math.min(...p) : 0; }
+function items() {
+  return Object.entries(cart).filter(([k, q]) => q > 0).map(([k, q]) => { const [ta, al] = k.split('|'); return { ta, al, qty: q }; });
+}
+function line(i) {
+  const t = D.types.find(x => x.id === i.ta), a = t.alter.find(x => x.id === i.al);
+  return { t, a, sum: a.preis * i.qty };
+}
+const total = () => items().reduce((s, i) => s + line(i).sum, 0);
+const count = () => items().reduce((s, i) => s + i.qty, 0);
+function dayLeft(id) {
+  const d = dayById(id); let u = 0;
+  items().forEach(i => { const t = D.types.find(x => x.id === i.ta); if (t.tage.includes(id)) u += i.qty; });
+  return (d ? d.frei : 0) - u;
+}
+const soldOut = t => t.tage.some(d => (dayById(d) || { frei: 0 }).frei <= 0);
+const canAdd = t => count() < D.max && t.tage.every(d => dayLeft(d) > 0);
+const typeQty = id => items().filter(i => i.ta === id).reduce((s, i) => s + i.qty, 0);
+
+/* Kinderticket nur mit Erwachsenen-Ticket für denselben Tag */
+function childProblem() {
+  const its = items().map(line).map((l, n) => ({ ...l, qty: items()[n].qty }));
+  for (const c of its.filter(l => l.a.begleitung)) {
+    for (const day of c.t.tage) {
+      const ok = its.some(l => l.a.erwachsen && l.t.tage.includes(day));
+      if (!ok) return 'Kindertickets nur zusammen mit einem Erwachsenen-Ticket für ' + ((dayById(day) || {}).name || day) + '.';
+    }
+  }
+  return '';
+}
+
+/* ---------------- Ansichten ---------------- */
+function vHero() {
+  const bg = X.hero ? `style="background-image:url('${esc(X.hero)}')"` : '';
+  const ab = minAll();
+  return `
+<section class="hero" ${bg}>
+  <div class="in">
+    <span class="kicker">Tickets</span>
+    <h1>${esc(X.titel || D.event)}</h1>
+    ${X.untertitel ? `<div class="sub">${esc(X.untertitel)}</div>` : ''}
+    <div class="facts">
+      ${eventDates() ? `<span>${ICON.cal}${esc(eventDates())}</span>` : ''}
+      ${D.ort ? `<span>${ICON.pin}${esc(D.ort)}</span>` : ''}
+      ${ab ? `<span>${ICON.tag}Tickets ab ${eur(ab)}</span>` : ''}
+    </div>
+    <button class="btn" type="button" onclick="toList(true)">Tickets auswählen</button>
+  </div>
+</section>
+${X.highlights && X.highlights.length ? `
+<section class="hl"><div class="in">
+  ${X.highlights.map((h, i) => `<div class="it">${ICON[HL_ICONS[i]] || ICON.tag}<div><b>${esc(h.titel)}</b><small>${esc(h.text)}</small></div></div>`).join('')}
+</div></section>` : ''}`;
+}
+
+function vCard(t) {
+  const db = dateBox(t.tage), so = soldOut(t);
+  const low = Math.min(...t.tage.map(d => (dayById(d) || { frei: 0 }).frei));
+  const q = typeQty(t.id), isOpen = open[t.id] || q > 0;
+  return `
+<div class="card">
+  <div class="row">
+    <div class="date"><div class="d">${esc(db.d)}</div><div class="m">${esc(db.m)}</div><div class="w">${esc(db.w)}</div></div>
+    <div class="mid">
+      <h3>${esc(t.name)}</h3>
+      <div class="l">${esc(D.ort || '')}${t.beschr ? ' · ' + esc(t.beschr) : ''}</div>
+      ${t.extras ? `<div class="ex">✨ ${esc(t.extras)}</div>` : ''}
+    </div>
+    <div class="side">
+      ${so ? '<div class="so">Ausverkauft</div>' : `
+      <div class="p">${minPrice(t) > 0 ? 'ab ' + eur(minPrice(t)) : 'gratis'}</div>
+      <button class="btn" type="button" onclick="toggle('${esc(t.id)}')">${isOpen ? 'Schließen' : q ? 'Ändern' : 'Auswählen'}</button>
+      ${low <= 50 ? `<div class="n">Nur noch ${low} Plätze verfügbar</div>` : q ? `<div class="n" style="color:var(--ok)">${q} im Warenkorb</div>` : ''}`}
+    </div>
+  </div>
+  ${!so && isOpen ? `
+  <div class="opts">
+    ${t.alter.map(a => {
+      const k = t.id + '|' + a.id, n = cart[k] || 0;
+      return `
+    <div class="opt">
+      <div class="g"><b>${esc(a.name)}</b>${a.hinweis ? `<div>${esc(a.hinweis)}</div>` : ''}</div>
+      <div class="pr">${a.preis ? eur(a.preis) : 'gratis'}</div>
+      <div class="qty">
+        <button type="button" aria-label="weniger" ${n ? '' : 'disabled'} onclick="chg('${esc(k)}',-1)">−</button>
+        <b>${n}</b>
+        <button type="button" aria-label="mehr" class="pl" ${canAdd(t) ? '' : 'disabled'} onclick="chg('${esc(k)}',1)">+</button>
+      </div>
+    </div>`;
+    }).join('')}
+  </div>` : ''}
+</div>`;
+}
+
+function vList() {
+  if (!D.offen) {
+    return vHero() + `<main><div class="box"><h3>Der Ticketverkauf ist derzeit geschlossen.</h3><div class="hint">Bitte schau später wieder vorbei.</div></div>${foot()}</main>`;
+  }
+  return vHero() + `
+<main id="tickets">
+  <div class="head"><h2>Tickets</h2><span>${D.types.length} Ticketart${D.types.length === 1 ? '' : 'en'}</span></div>
+  ${D.info ? `<div class="info">${esc(D.info)}</div>` : ''}
+  ${D.types.map(vCard).join('') || '<div class="box">Derzeit sind keine Tickets im Verkauf.</div>'}
+  ${foot()}
+</main>`;
+}
+
+function vBar() {
+  if (step !== 'list' || !count()) return '';
+  const cp = childProblem();
+  return `
+<div class="bar"><div class="in">
+  <div class="s"><b>${eur(total())}</b>
+    <div class="${cp ? 'warn' : ''}">${cp ? esc(cp) : count() + ' Ticket' + (count() > 1 ? 's' : '') + ' · inkl. MwSt.'}</div>
+  </div>
+  <button class="btn" type="button" ${cp ? 'disabled' : ''} onclick="toCheckout()">Zur Kasse →</button>
+</div></div>`;
+}
+
+function vCheckout() {
+  const sum = total(), rab = disc ? disc.rabatt : 0, end = Math.max(0, sum - rab);
+  return `
+<main>
+  <button class="btn sec" type="button" onclick="toList()">← Weitere Tickets</button>
+  <div class="head" style="margin-top:18px"><h2>Bestellung abschließen</h2></div>
+  <div class="grid2">
+    <div>
+      <div class="box">
+        <h3>Deine Daten</h3>
+        <label for="firstName">Vorname *</label><input id="firstName" autocomplete="given-name" required>
+        <label for="lastName">Nachname *</label><input id="lastName" autocomplete="family-name" required>
+        <label for="email">E-Mail – hierhin senden wir Zahlungsinfo und Tickets</label>
+        <input id="email" type="email" inputmode="email" autocomplete="email">
+        <label for="email2">E-Mail wiederholen</label><input id="email2" type="email" inputmode="email">
+        <input id="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0;pointer-events:none">
+        <label class="chk"><input type="checkbox" id="cons"><span>Ich akzeptiere die
+          ${D.agb ? `<a href="${esc(D.agb)}" target="_blank" rel="noopener noreferrer">Ticketbedingungen</a>` : 'Ticketbedingungen'}
+          und habe die
+          ${D.datenschutz ? `<a href="${esc(D.datenschutz)}" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a>` : 'Datenschutzerklärung'}
+          gelesen.</span></label>
+        <div id="ts"></div>
+        <div id="err"></div>
+      </div>
+      <div class="box">
+        <h3>Rabattcode</h3>
+        <div style="display:flex;gap:8px">
+          <input id="code" placeholder="Code eingeben" value="${esc(disc ? disc.code : '')}" style="text-transform:uppercase">
+          <button class="btn sec" type="button" onclick="applyCode()">Einlösen</button>
+        </div>
+        <div id="codeMsg">${disc ? `<div class="okmsg">✓ ${esc(disc.info)}</div>` : ''}</div>
+      </div>
+    </div>
+    <div>
+      <div class="box">
+        <h3>Warenkorb</h3>
+        ${items().map(i => { const { t, a, sum } = line(i); return `
+        <div class="ln"><div><b>${esc(t.name)}</b><div class="h">${esc(a.name)} · ${i.qty} × ${a.preis ? eur(a.preis) : 'gratis'}</div></div><div>${eur(sum)}</div></div>`; }).join('')}
+        ${rab ? `<div class="ln" style="color:var(--ok)"><div>Rabatt ${esc(disc.code)}</div><div>− ${eur(rab)}</div></div>` : ''}
+        <div class="tot"><span>Gesamt</span><span>${eur(end)}</span></div>
+        <div class="hint">inkl. MwSt.</div>
+        <button class="btn full" id="buy" type="button" style="margin-top:16px;padding:16px" onclick="buy()">Zahlungspflichtig bestellen</button>
+        <div class="hint" style="margin-top:10px">Zahlung per Überweisung. Deine Tickets sind ${esc(D.ablauf)} Tage reserviert und werden nach Zahlungseingang als PDF per Mail zugestellt.</div>
+      </div>
+    </div>
+  </div>
+  ${foot()}
+</main>`;
+}
+
+function vDone(r, name, email) {
+  return `
+<main>
+  <div class="box" style="border-top:5px solid var(--ok)">
+    <h3 style="font-size:24px">✅ Danke für deine Bestellung, ${esc(name)}!</h3>
+    <div>Bestellnummer: <b>${esc(r.nr)}</b><br>
+      ${r.frei ? `Deine Tickets werden in wenigen Minuten an <b>${esc(email)}</b> gesendet.`
+               : `Die Zahlungsinformationen senden wir in wenigen Minuten an <b>${esc(email)}</b>.`}
+    </div>
+  </div>
+  ${r.frei ? '' : `
+  <div class="grid2">
+    <div class="box">
+      <h3>Bitte überweise bis ${esc(r.frist)}</h3>
+      <table class="pay">
+        <tr><td>Empfänger</td><td>${esc(r.inhaber)}</td></tr>
+        <tr><td>IBAN</td><td>${esc(r.iban)}</td></tr>
+        ${r.bic ? `<tr><td>BIC</td><td>${esc(r.bic)}</td></tr>` : ''}
+        <tr><td>Betrag</td><td>${eur(r.summe)}</td></tr>
+        <tr><td>Verwendungszweck</td><td>${esc(r.nr)}</td></tr>
+      </table>
+    </div>
+    <div class="box" style="text-align:center">
+      <h3>Mit der Banking-App scannen</h3>
+      <div class="giro">${r.epc ? F3QR.svg(r.epc) : ''}</div>
+      <div class="hint">Betrag und Verwendungszweck sind schon ausgefüllt.</div>
+    </div>
+  </div>
+  <div class="info">Nach Zahlungseingang erhältst du deine Tickets mit QR-Codes als PDF per Mail. Keine Mail bekommen? Bitte prüfe den Spam-Ordner.</div>`}
+  ${foot()}
+</main>`;
+}
+
+function foot() {
+  return `
+<footer>
+  ${esc(D.veranstalter || '')}${X.kontakt ? ' · ' + esc(X.kontakt) : ''}
+  ${D.datenschutz ? ` · <a href="${esc(D.datenschutz)}" target="_blank" rel="noopener noreferrer">Datenschutz</a>` : ''}
+  ${D.agb ? ` · <a href="${esc(D.agb)}" target="_blank" rel="noopener noreferrer">Ticketbedingungen</a>` : ''}
+</footer>`;
+}
+
+/* ---------------- Bot-Schutz (Cloudflare Turnstile, optional) ---------------- */
+function mountTurnstile() {
+  if (!tsSiteKey || !$('#ts')) return;
+  const go = () => {
+    if (!window.turnstile || !$('#ts')) return;
+    tsToken = '';
+    tsWidget = turnstile.render('#ts', { sitekey: tsSiteKey, language: 'de', callback: t => { tsToken = t; }, 'expired-callback': () => { tsToken = ''; } });
+  };
+  if (window.turnstile) return go();
+  if (!document.getElementById('tsScript')) {
+    const s = document.createElement('script');
+    s.id = 'tsScript';
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    s.async = true;
+    s.onload = go;
+    document.head.appendChild(s);
+  }
+}
+
+/* ---------------- Steuerung ---------------- */
+function render() {
+  if (X.farbe) document.documentElement.style.setProperty('--navy', X.farbe);
+  if (X.akzent) document.documentElement.style.setProperty('--red', X.akzent);
+  if (X.logo && !$('#logo img')) {
+    const img = new Image();
+    img.alt = D.event;
+    img.onload = () => { $('#logo').innerHTML = ''; $('#logo').appendChild(img); };
+    img.src = X.logo;
+  }
+  if (step === 'list') $('#app').innerHTML = vList();
+  else if (step === 'checkout') { $('#app').innerHTML = vCheckout(); mountTurnstile(); }
+  $('#barBox').innerHTML = vBar();
+}
+function toList(scroll) {
+  step = 'list'; render();
+  const e = $('#tickets');
+  if (e && scroll) e.scrollIntoView({ behavior: 'smooth' }); else scrollTo(0, 0);
+}
+function toggle(id) {
+  open[id] = !(open[id] || typeQty(id) > 0);
+  if (!open[id]) Object.keys(cart).forEach(k => { if (k.startsWith(id + '|') && !cart[k]) delete cart[k]; });
+  render();
+}
+function chg(k, d) {
+  cart[k] = Math.max(0, (cart[k] || 0) + d);
+  open[k.split('|')[0]] = true;
+  disc = null;
+  const y = scrollY; render(); scrollTo(0, y);
+}
+function toCheckout() {
+  if (childProblem()) return toast(childProblem());
+  step = 'checkout'; render(); scrollTo(0, 0);
+}
+
+async function applyCode() {
+  const c = $('#code').value.trim();
+  if (!c) { disc = null; render(); return; }
+  $('#codeMsg').innerHTML = '<div class="hint">Prüfe …</div>';
+  try {
+    const r = await F3.shopApi('discount', { code: c, items: items() });
+    if (r.error) { disc = null; $('#codeMsg').innerHTML = `<div class="err">${esc(r.error)}</div>`; return; }
+    const ids = ['firstName', 'lastName', 'email', 'email2'];
+    const keep = ids.map(i => $('#' + i).value), ck = $('#cons').checked;
+    disc = r; render();
+    ids.forEach((i, n) => { $('#' + i).value = keep[n]; });
+    $('#cons').checked = ck;
+    toast('Rabatt eingelöst');
+  } catch (e) {
+    $('#codeMsg').innerHTML = `<div class="err">${esc(e.message)}</div>`;
+  }
+}
+
+async function buy() {
+  if (busy) return;
+  const firstName = $('#firstName').value.trim(), lastName = $('#lastName').value.trim();
+  const name = (firstName + ' ' + lastName).trim();
+  const email = $('#email').value.trim(), e2 = $('#email2').value.trim();
+  const err = m => { $('#err').innerHTML = `<div class="err">${esc(m)}</div>`; $('#err').scrollIntoView({ block: 'center' }); };
+  if (!firstName) return err('Bitte gib deinen Vornamen an.');
+  if (!lastName) return err('Bitte gib deinen Nachnamen an.');
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return err('Bitte gib eine gültige E-Mail-Adresse an.');
+  if (email.toLowerCase() !== e2.toLowerCase()) return err('Die E-Mail-Adressen stimmen nicht überein.');
+  if (!$('#cons').checked) return err('Bitte bestätige die Ticketbedingungen und den Datenschutz.');
+  if (childProblem()) return err(childProblem());
+  if (tsSiteKey && !tsToken) return err('Bitte warte kurz, bis die Sicherheitsprüfung abgeschlossen ist.');
+
+  busy = true;
+  const b = $('#buy');
+  b.disabled = true; b.textContent = 'Bestellung wird gesendet …';
+  try {
+    const r = await F3.shopApi('order', {
+      turnstile: tsToken,
+      order: { checkoutId, firstName, lastName, email, website: $('#website').value,
+               items: items(), code: disc ? disc.code : '', consent: true }
+    });
+    cart = {}; disc = null; open = {}; step = 'done';
+    checkoutId = newCheckoutId();
+    $('#barBox').innerHTML = '';
+    $('#app').innerHTML = vDone(r, name, email);
+    scrollTo(0, 0);
+  } catch (e) {
+    // checkoutId bleibt gleich → erneuter Klick findet eine evtl. bereits angelegte Bestellung
+    err(e.message || 'Die Bestellung konnte nicht verarbeitet werden.');
+    b.disabled = false; b.textContent = 'Zahlungspflichtig bestellen';
+    if (window.turnstile && tsWidget !== null) { tsToken = ''; try { turnstile.reset(tsWidget); } catch (x) {} }
+    F3.shopApi('shop').then(d => { D = d; }).catch(() => {});
+  } finally {
+    busy = false;
+  }
+}
+
+/* ---------------- Start ---------------- */
+Promise.all([F3.shopApi('shop'), F3.config().catch(() => ({}))])
+  .then(([d, c]) => {
+    D = d; X = d.design || {}; tsSiteKey = c.turnstileSiteKey || '';
+    document.title = (X.titel || D.event) + ' – Tickets';
+    render();
+  })
+  .catch(e => { $('#app').innerHTML = `<div class="load">Fehler beim Laden: ${esc(e.message)}</div>`; });
+</script>
+</body>
+</html>

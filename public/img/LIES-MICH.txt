@@ -1,0 +1,3 @@
+Hier zwei Bilder ablegen (optional, sonst Text-Logo bzw. dunkler Kopf):
+  logo.png  – Final3-Logo (wird in Shop, Admin, Scanner, Mail und Ticket-PDF verwendet)
+  hero.jpg  – großes Kopfbild im Shop
