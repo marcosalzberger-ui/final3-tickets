@@ -7,20 +7,15 @@
 <link rel="icon" href="/img/logo.png">
 <link rel="stylesheet" href="/assets/final3.css">
 <style>
-.top{background:var(--black);height:64px;display:flex;align-items:center;padding:0 20px}
-.top .in{max-width:1080px;width:100%;margin:auto;display:flex;align-items:center;gap:16px}
-.logo{background:#fff;border-radius:10px;padding:5px 12px;display:inline-flex;align-items:center;height:46px}
-.logo img{height:36px;width:auto;display:block}
-.logo b{color:var(--navy);font-size:18px;letter-spacing:.5px}
-.top .sp{flex:1}
-.top .lnk{color:#fff;font-size:14px;font-weight:600;text-decoration:none;opacity:.9}
+.logo{background:#fff;border-radius:12px;padding:8px 16px;display:inline-flex;align-items:center;height:64px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.logo img{height:48px;width:auto;display:block}
+.logo b{color:var(--navy);font-size:22px;letter-spacing:.5px}
 .hero{position:relative;min-height:380px;background:var(--black) center/cover no-repeat;color:#fff;display:flex;align-items:center}
 .hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,16,.92) 0%,rgba(8,10,16,.72) 45%,rgba(8,10,16,.15) 100%)}
-.hero .in{position:relative;max-width:1080px;width:100%;margin:auto;padding:44px 20px}
-.kicker{display:inline-block;background:var(--red);color:#fff;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;border-radius:4px}
-.hero h1{font-size:40px;line-height:1.1;margin:14px 0 10px;font-weight:800;max-width:640px}
+.hero .in{position:relative;max-width:1080px;width:100%;margin:auto;padding:36px 20px 40px}
+.hero h1{font-size:40px;line-height:1.1;margin:20px 0 10px;font-weight:800;max-width:640px}
 .hero .sub{font-size:17px;max-width:560px;opacity:.95;line-height:1.45}
-.facts{margin:18px 0 22px;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:16px;font-weight:600}
+.facts{margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:16px;font-weight:600}
 .facts span{display:inline-flex;align-items:center;gap:8px}
 .facts svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:1.8}
 .btn{border:0;border-radius:10px;padding:14px 26px;font-size:16px;font-weight:700;background:var(--red);color:#fff;cursor:pointer;font-family:inherit}
@@ -91,9 +86,11 @@ table.pay td:last-child{text-align:right;font-weight:600}
 footer{text-align:center;font-size:13px;color:var(--mut);padding:10px 20px 30px}
 @media(max-width:760px){
   .hero{min-height:0}
-  .hero .in{padding:30px 18px}
+  .hero .in{padding:24px 18px 30px}
   .hero h1{font-size:28px}
   .hero .sub{font-size:15px}
+  .logo{height:54px;padding:6px 12px}
+  .logo img{height:40px}
   .hl .in{grid-template-columns:1fr 1fr;gap:14px}
   .row{flex-wrap:wrap}
   .date{flex:0 0 96px;padding:14px 6px}
@@ -104,18 +101,10 @@ footer{text-align:center;font-size:13px;color:var(--mut);padding:10px 20px 30px}
   .side{flex:1 0 100%;flex-direction:row;align-items:center;justify-content:space-between;border-top:1px solid #eef0f4;padding:12px 14px;text-align:left}
   .opts{padding:4px 14px 10px}
   .grid2{grid-template-columns:1fr}
-  .top .lnk{display:none}
 }
 </style>
 </head>
 <body>
-<div class="top">
-  <div class="in">
-    <span class="logo" id="logo"><b>FINAL3</b></span>
-    <span class="sp"></span>
-    <a class="lnk" href="#tickets" onclick="toList(true);return false">Tickets</a>
-  </div>
-</div>
 <div id="app"><div class="load">⏳ Lade Tickets …</div></div>
 <div id="barBox"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -216,7 +205,7 @@ function vHero() {
   return `
 <section class="hero" ${bg}>
   <div class="in">
-    <span class="kicker">Tickets</span>
+    <span class="logo" id="logo"><b>FINAL3</b></span>
     <h1>${esc(X.titel || D.event)}</h1>
     ${X.untertitel ? `<div class="sub">${esc(X.untertitel)}</div>` : ''}
     <div class="facts">
@@ -224,7 +213,6 @@ function vHero() {
       ${D.ort ? `<span>${ICON.pin}${esc(D.ort)}</span>` : ''}
       ${ab ? `<span>${ICON.tag}Tickets ab ${eur(ab)}</span>` : ''}
     </div>
-    <button class="btn" type="button" onclick="toList(true)">Tickets auswählen</button>
   </div>
 </section>
 ${X.highlights && X.highlights.length ? `
@@ -409,17 +397,24 @@ function mountTurnstile() {
 }
 
 /* ---------------- Steuerung ---------------- */
+let logoImg = null;
+function placeLogo() {
+  const l = $('#logo');
+  if (!l || !X.logo) return;
+  if (logoImg && logoImg.complete && logoImg.naturalWidth) { l.innerHTML = ''; l.appendChild(logoImg.cloneNode()); return; }
+  if (!logoImg) {
+    logoImg = new Image();
+    logoImg.alt = D.event;
+    logoImg.onload = placeLogo;
+    logoImg.src = X.logo;
+  }
+}
 function render() {
   if (X.farbe) document.documentElement.style.setProperty('--navy', X.farbe);
   if (X.akzent) document.documentElement.style.setProperty('--red', X.akzent);
-  if (X.logo && !$('#logo img')) {
-    const img = new Image();
-    img.alt = D.event;
-    img.onload = () => { $('#logo').innerHTML = ''; $('#logo').appendChild(img); };
-    img.src = X.logo;
-  }
   if (step === 'list') $('#app').innerHTML = vList();
   else if (step === 'checkout') { $('#app').innerHTML = vCheckout(); mountTurnstile(); }
+  placeLogo();
   $('#barBox').innerHTML = vBar();
 }
 function toList(scroll) {
@@ -430,7 +425,7 @@ function toList(scroll) {
 function toggle(id) {
   open[id] = !(open[id] || typeQty(id) > 0);
   if (!open[id]) Object.keys(cart).forEach(k => { if (k.startsWith(id + '|') && !cart[k]) delete cart[k]; });
-  render();
+  const y = scrollY; render(); scrollTo(0, y);
 }
 function chg(k, d) {
   cart[k] = Math.max(0, (cart[k] || 0) + d);
@@ -490,7 +485,6 @@ async function buy() {
     $('#app').innerHTML = vDone(r, name, email);
     scrollTo(0, 0);
   } catch (e) {
-    // checkoutId bleibt gleich → erneuter Klick findet eine evtl. bereits angelegte Bestellung
     err(e.message || 'Die Bestellung konnte nicht verarbeitet werden.');
     b.disabled = false; b.textContent = 'Zahlungspflichtig bestellen';
     if (window.turnstile && tsWidget !== null) { tsToken = ''; try { turnstile.reset(tsWidget); } catch (x) {} }
