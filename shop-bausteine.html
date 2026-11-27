@@ -1,0 +1,31 @@
+<!-- ============================================================
+     BAUSTEIN 1: FOOTER-LINKS  – vor </body> in public/index.html
+     ============================================================ -->
+<footer class="f3-legal" style="text-align:center;font-size:.85rem;padding:24px 12px;opacity:.85">
+  Veranstalter: SPORTUNION Nußbach · ZVR 327740618<br>
+  <a href="https://union-nussbach.at/impressum/" target="_blank" rel="noopener">Impressum</a> ·
+  <a href="/datenschutz.html">Datenschutz</a> ·
+  <a href="/agb.html">Ticketbedingungen</a>
+</footer>
+
+<!-- ============================================================
+     BAUSTEIN 2: PFLICHTHINWEIS – direkt ÜBER dem Button
+     "Zahlungspflichtig bestellen" in public/index.html
+     ============================================================ -->
+<div class="f3-pflicht" style="font-size:.85rem;line-height:1.5;border:1px solid #ccc;border-radius:8px;padding:12px;margin:12px 0">
+  <strong>Veranstalter:</strong> SPORTUNION Nußbach, Wimberg 7, 4542 Nußbach.<br>
+  Alle Preise sind Endpreise inkl. aller Abgaben, keine zusätzlichen Gebühren.
+  Zahlung per Banküberweisung; die Tickets erhältst du nach Zahlungseingang als PDF per E-Mail.<br>
+  <strong>Hinweis:</strong> Bei Tickets für Freizeitveranstaltungen mit festem Termin besteht
+  gemäß § 18 Abs. 1 Z 10 FAGG <strong>kein Rücktrittsrecht</strong>.<br>
+  <label style="display:flex;gap:8px;align-items:flex-start;margin-top:8px">
+    <input type="checkbox" id="f3AgbOk" required>
+    <span>Ich akzeptiere die <a href="/agb.html" target="_blank">Ticketbedingungen</a> und habe die
+    <a href="/datenschutz.html" target="_blank">Datenschutzhinweise</a> gelesen.</span>
+  </label>
+</div>
+<!-- Im JavaScript der Bestellfunktion VOR dem Absenden ergänzen:
+  if (!document.getElementById('f3AgbOk').checked) {
+    alert('Bitte akzeptiere die Ticketbedingungen.'); return;
+  }
+-->
