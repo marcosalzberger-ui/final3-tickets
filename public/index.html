@@ -77,13 +77,15 @@ input{width:100%;padding:12px;font-size:16px;border:1px solid #d3d9e3;border-rad
 .chk input{width:auto;margin-top:3px}
 .okmsg{color:var(--ok);font-size:14px;margin-top:6px}
 .hint{font-size:13px;color:var(--mut);line-height:1.5}
+.legal{font-size:12.5px;color:#333;line-height:1.5;background:#f6f7fa;border-radius:8px;padding:10px 12px;margin-top:12px}
 table.pay{width:100%;border-collapse:collapse;font-size:15px}
 table.pay td{padding:8px 0;border-bottom:1px solid #eef0f4}
 table.pay td:last-child{text-align:right;font-weight:600}
 .giro{display:inline-block;width:200px;height:200px}
 .giro svg{width:100%;height:100%}
 #ts{margin-top:14px;min-height:0}
-footer{text-align:center;font-size:13px;color:var(--mut);padding:10px 20px 30px}
+footer{text-align:center;font-size:13px;color:var(--mut);padding:10px 20px 30px;line-height:1.7}
+footer a{color:inherit}
 @media(max-width:760px){
   .hero{min-height:0}
   .hero .in{padding:24px 18px 30px}
@@ -108,11 +110,20 @@ footer{text-align:center;font-size:13px;color:var(--mut);padding:10px 20px 30px}
 <div id="app"><div class="load">⏳ Lade Tickets …</div></div>
 <div id="barBox"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
 <script src="/assets/qr.js"></script>
 <script src="/assets/common.js"></script>
 <script>
 const $ = F3.$, esc = F3.esc, eur = F3.eur, toast = F3.toast;
+
+/* ---------------- Rechtliches (fixe Links, falls in der DB nichts hinterlegt ist) ---------------- */
+const LEGAL = {
+  impressum: 'https://union-nussbach.at/impressum/',
+  datenschutz: '/datenschutz.html',
+  agb: '/agb.html',
+  veranstalter: 'SPORTUNION Nußbach · ZVR 327740618 · Wimberg 7, 4542 Nußbach'
+};
+const urlDs = () => (D && D.datenschutz) || LEGAL.datenschutz;
+const urlAgb = () => (D && D.agb) || LEGAL.agb;
 
 /* Checkout-ID bleibt während eines Bestellversuchs gleich → keine Doppelbestellung */
 function newCheckoutId() {
@@ -120,7 +131,6 @@ function newCheckoutId() {
   return String(Date.now()) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
 }
 let checkoutId = newCheckoutId();
-
 const MON = ['Jän.','Feb.','März','Apr.','Mai','Juni','Juli','Aug.','Sep.','Okt.','Nov.','Dez.'];
 const WD = ['So.','Mo.','Di.','Mi.','Do.','Fr.','Sa.'];
 const ICON = {
@@ -132,7 +142,6 @@ const ICON = {
   tag: '<svg viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>'
 };
 const HL_ICONS = ['cal','arena','cam','leaf'];
-
 let D = null, X = {}, cart = {}, open = {}, step = 'list', disc = null, busy = false;
 let tsSiteKey = '', tsToken = '', tsWidget = null;
 
@@ -220,7 +229,6 @@ ${X.highlights && X.highlights.length ? `
   ${X.highlights.map((h, i) => `<div class="it">${ICON[HL_ICONS[i]] || ICON.tag}<div><b>${esc(h.titel)}</b><small>${esc(h.text)}</small></div></div>`).join('')}
 </div></section>` : ''}`;
 }
-
 function vCard(t) {
   const db = dateBox(t.tage), so = soldOut(t);
   const low = Math.min(...t.tage.map(d => (dayById(d) || { frei: 0 }).frei));
@@ -259,7 +267,6 @@ function vCard(t) {
   </div>` : ''}
 </div>`;
 }
-
 function vList() {
   if (!D.offen) {
     return vHero() + `<main><div class="box"><h3>Der Ticketverkauf ist derzeit geschlossen.</h3><div class="hint">Bitte schau später wieder vorbei.</div></div>${foot()}</main>`;
@@ -272,7 +279,6 @@ function vList() {
   ${foot()}
 </main>`;
 }
-
 function vBar() {
   if (step !== 'list' || !count()) return '';
   const cp = childProblem();
@@ -284,7 +290,6 @@ function vBar() {
   <button class="btn" type="button" ${cp ? 'disabled' : ''} onclick="toCheckout()">Zur Kasse →</button>
 </div></div>`;
 }
-
 function vCheckout() {
   const sum = total(), rab = disc ? disc.rabatt : 0, end = Math.max(0, sum - rab);
   return `
@@ -302,9 +307,9 @@ function vCheckout() {
         <label for="email2">E-Mail wiederholen</label><input id="email2" type="email" inputmode="email">
         <input id="website" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0;pointer-events:none">
         <label class="chk"><input type="checkbox" id="cons"><span>Ich akzeptiere die
-          ${D.agb ? `<a href="${esc(D.agb)}" target="_blank" rel="noopener noreferrer">Ticketbedingungen</a>` : 'Ticketbedingungen'}
+          <a href="${esc(urlAgb())}" target="_blank" rel="noopener noreferrer">Ticketbedingungen</a>
           und habe die
-          ${D.datenschutz ? `<a href="${esc(D.datenschutz)}" target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a>` : 'Datenschutzerklärung'}
+          <a href="${esc(urlDs())}" target="_blank" rel="noopener noreferrer">Datenschutzhinweise</a>
           gelesen.</span></label>
         <div id="ts"></div>
         <div id="err"></div>
@@ -325,7 +330,11 @@ function vCheckout() {
         <div class="ln"><div><b>${esc(t.name)}</b><div class="h">${esc(a.name)} · ${i.qty} × ${a.preis ? eur(a.preis) : 'gratis'}</div></div><div>${eur(sum)}</div></div>`; }).join('')}
         ${rab ? `<div class="ln" style="color:var(--ok)"><div>Rabatt ${esc(disc.code)}</div><div>− ${eur(rab)}</div></div>` : ''}
         <div class="tot"><span>Gesamt</span><span>${eur(end)}</span></div>
-        <div class="hint">inkl. MwSt.</div>
+        <div class="hint">Endpreis inkl. aller Abgaben – keine zusätzlichen Gebühren.</div>
+        <div class="legal">
+          <b>Veranstalter:</b> ${esc(LEGAL.veranstalter)}<br>
+          <b>Kein Rücktrittsrecht:</b> Bei Tickets für Freizeitveranstaltungen mit festem Termin besteht gemäß § 18 Abs. 1 Z 10 FAGG kein Rücktrittsrecht. Bei Absage durch den Veranstalter wird der Ticketpreis erstattet.
+        </div>
         <button class="btn full" id="buy" type="button" style="margin-top:16px;padding:16px" onclick="buy()">Zahlungspflichtig bestellen</button>
         <div class="hint" style="margin-top:10px">Zahlung per Überweisung. Deine Tickets sind ${esc(D.ablauf)} Tage reserviert und werden nach Zahlungseingang als PDF per Mail zugestellt.</div>
       </div>
@@ -334,7 +343,6 @@ function vCheckout() {
   ${foot()}
 </main>`;
 }
-
 function vDone(r, name, email) {
   return `
 <main>
@@ -367,13 +375,13 @@ function vDone(r, name, email) {
   ${foot()}
 </main>`;
 }
-
 function foot() {
   return `
 <footer>
-  ${esc(D.veranstalter || '')}${X.kontakt ? ' · ' + esc(X.kontakt) : ''}
-  ${D.datenschutz ? ` · <a href="${esc(D.datenschutz)}" target="_blank" rel="noopener noreferrer">Datenschutz</a>` : ''}
-  ${D.agb ? ` · <a href="${esc(D.agb)}" target="_blank" rel="noopener noreferrer">Ticketbedingungen</a>` : ''}
+  ${esc(D.veranstalter || LEGAL.veranstalter)}${X.kontakt ? ' · ' + esc(X.kontakt) : ''}<br>
+  <a href="${esc(LEGAL.impressum)}" target="_blank" rel="noopener noreferrer">Impressum</a>
+  · <a href="${esc(urlDs())}" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+  · <a href="${esc(urlAgb())}" target="_blank" rel="noopener noreferrer">Ticketbedingungen</a>
 </footer>`;
 }
 
@@ -437,7 +445,6 @@ function toCheckout() {
   if (childProblem()) return toast(childProblem());
   step = 'checkout'; render(); scrollTo(0, 0);
 }
-
 async function applyCode() {
   const c = $('#code').value.trim();
   if (!c) { disc = null; render(); return; }
@@ -455,7 +462,6 @@ async function applyCode() {
     $('#codeMsg').innerHTML = `<div class="err">${esc(e.message)}</div>`;
   }
 }
-
 async function buy() {
   if (busy) return;
   const firstName = $('#firstName').value.trim(), lastName = $('#lastName').value.trim();
@@ -469,7 +475,6 @@ async function buy() {
   if (!$('#cons').checked) return err('Bitte bestätige die Ticketbedingungen und den Datenschutz.');
   if (childProblem()) return err(childProblem());
   if (tsSiteKey && !tsToken) return err('Bitte warte kurz, bis die Sicherheitsprüfung abgeschlossen ist.');
-
   busy = true;
   const b = $('#buy');
   b.disabled = true; b.textContent = 'Bestellung wird gesendet …';
